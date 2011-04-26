@@ -1,0 +1,15 @@
+#sheet {
+  width: 400px
+}
+.cell {
+  background: #eee;
+  margin:5px; padding:10px;
+  width: 50px; height:50px; overflow:hidden;
+  float:left;
+}
+.selected {
+  background:green;
+}
+.winning {
+  background:red;
+}
