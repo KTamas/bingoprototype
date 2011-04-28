@@ -1,30 +1,35 @@
 http = require('http')
-Sequelize = require('sequelize').Sequelize
 express = require('express')
+# https://github.com/zefhemel/persistencejs/pull/42
+persistence = require('./persistence')
+PersistenceConfig = require('./persistence').StoreConfig;
+persistenceStore = PersistenceConfig.init(persistence, {
+  adaptor: 'mysql',
+})
+
+persistenceStore.config(persistence, 'localhost', 3306, 'bingo', 'root', '')
+
+session = persistenceStore.getSession()
+
 app = express.createServer()
 app.use(express.bodyParser())
 app.use(app.router)
 app.use(express.static("#{__dirname}/public"))
 
-sequelize = new Sequelize('bingo', 'root', '', {
-  host: 'localhost',
-  port: 3306
+Cell = persistence.define('Cell', {
+  selected: "BOOL"
 })
 
-Cell = sequelize.define('Cell', {
-  selected: Sequelize.BOOLEAN
+Sheet = persistence.define('Sheet', {
+  name: "TEXT",
+  size: "INT"
 })
 
-Sheet = sequelize.define('Sheet', {
-  name: Sequelize.STRING,
-  size: Sequelize.INTEGER
-})
-
-Sheet.hasMany('cells')
+Sheet.hasMany('cells', Cell, 'sheets')
 
 
 app.get '/sync', (req, res) ->
-  sequelize.sync ->
+  session.schemaSync (tx) ->
     res.write('Done')
 app.post 'sheet', (req, res) ->
   # do stuff
