@@ -20,13 +20,12 @@ Sheet = sequelize.define('Sheet', {
   size: Sequelize.INTEGER
 })
 
-Sheet.hasMany('cells', Cell)
+Sheet.hasMany('cells')
 
 
 app.get '/sync', (req, res) ->
   sequelize.sync ->
-    console.log('done')
-
+    res.write('Done')
 app.post 'sheet', (req, res) ->
   # do stuff
 
