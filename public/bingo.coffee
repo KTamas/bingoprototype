@@ -10,6 +10,8 @@ $(document).ready ->
       @__defineGetter__ 'size', -> Math.sqrt @length
 
     model: Cell
+    url: '/sheet'
+
 
     every_nth: (n, offset=0, smallest=0, largest=@length) ->
       @select (cell) =>
@@ -85,7 +87,8 @@ $(document).ready ->
   window.sheetview = new SheetView
     collection:sheet
 
-  sheet.refresh [
+  sheet.create([
+  #sheet.refresh [
     { value: 'foo'}
     { value: 'bar'}
     { value: 'baz'}
@@ -111,4 +114,4 @@ $(document).ready ->
     { value: 'bar'}
     { value: 'baz' }
     { value: 'bla' }
-  ]
+  ])

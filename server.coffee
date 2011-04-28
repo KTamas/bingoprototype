@@ -17,7 +17,8 @@ app.use(app.router)
 app.use(express.static("#{__dirname}/public"))
 
 Cell = persistence.define('Cell', {
-  selected: "BOOL"
+  selected: "BOOL",
+  value: "TEXT"
 })
 
 Sheet = persistence.define('Sheet', {
@@ -27,12 +28,13 @@ Sheet = persistence.define('Sheet', {
 
 Sheet.hasMany('cells', Cell, 'sheets')
 
-
 app.get '/sync', (req, res) ->
   session.schemaSync (tx) ->
     res.write('Done')
-app.post 'sheet', (req, res) ->
-  # do stuff
+
+app.post '/sheet', (req, res) ->
+  console.log(req)
+  console.log(res)
 
 app.get '/sheet/:id', (req, res) ->
   # do even more stuff

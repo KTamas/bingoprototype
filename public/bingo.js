@@ -37,6 +37,7 @@
         });
       };
       Sheet.prototype.model = Cell;
+      Sheet.prototype.url = '/sheet';
       Sheet.prototype.every_nth = function(n, offset, smallest, largest) {
         if (offset == null) {
           offset = 0;
@@ -178,7 +179,7 @@
     window.sheetview = new SheetView({
       collection: sheet
     });
-    return sheet.refresh([
+    return sheet.create([
       {
         value: 'foo'
       }, {
