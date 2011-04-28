@@ -1,9 +1,25 @@
-http = require 'http'
-express = require 'express'
+http = require('http')
+Sequelize = require('sequelize').Sequelize
+express = require('express')
 app = express.createserver()
-app.use express.bodyParser()
-app.use app.router
-app.use express.static("#{__dirname}/public")
+app.use(express.bodyParser())
+app.use(app.router)
+app.use(express.static("#{__dirname}/public"))
+
+sequelize = new Sequelize('bingo', 'root', '', {
+  host: localhost
+  port: 3306
+});
+
+Sheet = sequelize.define('Sheet', {
+  name: Sequelize.STRING,
+  size: Sequelize.INTEGER
+});
+
+
+app.get '/sync' (req, res) ->
+  Sheet.sync ->
+    console.log('done')
 
 app.post 'sheet', (req, res) ->
   # do stuff
