@@ -33,10 +33,24 @@ app.get '/sync', (req, res) ->
     res.write('Done')
 
 app.post '/sheet', (req, res) ->
-  console.log(req)
-  console.log(res)
+  sheet = new Sheet(session)
+  for c in [0..24]
+    cell = new Cell(session)
+    cell.value = req.body[c].value
+    cell.selected = false
+    sheet.cells.add(cell)
+  session.flush()
+  res.send(req.body)
+
+app.get '/sheet', (req, res) ->
+  Sheet.all(session).one (data) ->
+    console.log(data.cells.all())
+    res.send(data.cells)
 
 app.get '/sheet/:id', (req, res) ->
+  console.log(req)
+  console.log('--------------------')
+  console.log(res)
   # do even more stuff
 
 app.put '/sheet/:id', (req, res) ->

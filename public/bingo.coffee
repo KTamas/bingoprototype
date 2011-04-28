@@ -87,31 +87,32 @@ $(document).ready ->
   window.sheetview = new SheetView
     collection:sheet
 
-  sheet.create([
+  sheet.fetch()
+#  sheet.refresh(sheet.create([
   #sheet.refresh [
-    { value: 'foo'}
-    { value: 'bar'}
-    { value: 'baz'}
-    { value: 'bla'}
-    { value: 'foo'}
-    { value: 'foo'}
-    { value: 'foo'}
-    { value: 'bar'}
-    { value: 'baz'}
-    { value: 'bla'}
-    { value: 'bar'}
-    { value: 'baz' }
-    { value: 'bla' }
-    { value: 'bar'}
-    { value: 'baz' }
-    { value: 'bla' }
-    { value: 'bar'}
-    { value: 'baz'}
-    { value: 'bla'}
-    { value: 'bar'}
-    { value: 'baz' }
-    { value: 'bla' }
-    { value: 'bar'}
-    { value: 'baz' }
-    { value: 'bla' }
-  ])
+    #{ value: 'foo'}
+    #{ value: 'bar'}
+    #{ value: 'baz'}
+    #{ value: 'bla'}
+    #{ value: 'foo'}
+    #{ value: 'foo'}
+    #{ value: 'foo'}
+    #{ value: 'bar'}
+    #{ value: 'baz'}
+    #{ value: 'bla'}
+    #{ value: 'bar'}
+    #{ value: 'baz' }
+    #{ value: 'bla' }
+    #{ value: 'bar'}
+    #{ value: 'baz' }
+    #{ value: 'bla' }
+    #{ value: 'bar'}
+    #{ value: 'baz'}
+    #{ value: 'bla'}
+    #{ value: 'bar'}
+    #{ value: 'baz' }
+    #{ value: 'bla' }
+    #{ value: 'bar'}
+    #{ value: 'baz' }
+    #{ value: 'bla' }
+  #]))

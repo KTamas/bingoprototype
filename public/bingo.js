@@ -179,58 +179,6 @@
     window.sheetview = new SheetView({
       collection: sheet
     });
-    return sheet.create([
-      {
-        value: 'foo'
-      }, {
-        value: 'bar'
-      }, {
-        value: 'baz'
-      }, {
-        value: 'bla'
-      }, {
-        value: 'foo'
-      }, {
-        value: 'foo'
-      }, {
-        value: 'foo'
-      }, {
-        value: 'bar'
-      }, {
-        value: 'baz'
-      }, {
-        value: 'bla'
-      }, {
-        value: 'bar'
-      }, {
-        value: 'baz'
-      }, {
-        value: 'bla'
-      }, {
-        value: 'bar'
-      }, {
-        value: 'baz'
-      }, {
-        value: 'bla'
-      }, {
-        value: 'bar'
-      }, {
-        value: 'baz'
-      }, {
-        value: 'bla'
-      }, {
-        value: 'bar'
-      }, {
-        value: 'baz'
-      }, {
-        value: 'bla'
-      }, {
-        value: 'bar'
-      }, {
-        value: 'baz'
-      }, {
-        value: 'bla'
-      }
-    ]);
+    return sheet.fetch();
   });
 }).call(this);
