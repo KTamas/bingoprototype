@@ -5,7 +5,7 @@ cp = require 'child_process'
 task 'watch', ->
   cp.spawn 'coffee', ['-cw', 'public'], customFds: [0..2]
 
-task 'build' ->
+task 'build', ->
   cp.exec 'coffee -c public/server.coffee'
 
 task 'docs', ->
