@@ -1,36 +1,49 @@
-http = require('http')
-express = require('express')
-# https://github.com/zefhemel/persistencejs/pull/42
-persistence = require('./persistence')
-PersistenceConfig = require('./persistence').StoreConfig;
-persistenceStore = PersistenceConfig.init(persistence, {
-  adaptor: 'mysql',
-})
+# require in the usual stuff
+http = require 'http' 
+express = require 'express' 
+app = express.createServer()
+app.configure ->
+  app.use express.bodyParser() 
+  app.use express.static "#{__dirname}/public"  
+  app.use app.router 
 
-persistenceStore.config(persistence, 'localhost', 3306, 'bingo', 'root', '')
+# database
+# see https://github.com/zefhemel/persistencejs/pull/42
+persistence = require './persistence' 
+PersistenceConfig = require('./persistence').StoreConfig
+persistenceStore = PersistenceConfig.init persistence, adaptor: 'mysql'
+
+persistenceStore.config persistence, 'localhost', 3306, 'bingo', 'root', '' 
 
 session = persistenceStore.getSession()
 
-app = express.createServer()
-app.use(express.bodyParser())
-app.use(app.router)
-app.use(express.static("#{__dirname}/public"))
-
-Cell = persistence.define('Cell', {
-  selected: "BOOL",
+Cell = persistence.define 'Cell', 
+  selected: "BOOL" 
   value: "TEXT"
-})
 
-Sheet = persistence.define('Sheet', {
-  name: "TEXT",
+Sheet = persistence.define 'Sheet',
+  name: "TEXT" 
   size: "INT"
-})
 
-Sheet.hasMany('cells', Cell, 'sheets')
+Sheet.hasMany 'cells', Cell, 'sheets' 
 
 app.get '/sync', (req, res) ->
   session.schemaSync (tx) ->
     res.write('Done')
+
+app.get '/sheet', (req, res) ->
+  Sheet.all(session).one (data) ->
+    data.cells.list null, (results) ->
+      res.send(results)
+      #results.forEach (r) ->
+        #console.log(r.value)
+      #res.send('foo')
+
+app.get '/sheet/:id', (req, res) ->
+  console.log req 
+  console.log '--------------------' 
+  console.log res 
+  # do even more stuff
 
 app.post '/sheet', (req, res) ->
   sheet = new Sheet(session)
@@ -42,16 +55,6 @@ app.post '/sheet', (req, res) ->
   session.flush()
   res.send(req.body)
 
-app.get '/sheet', (req, res) ->
-  Sheet.all(session).one (data) ->
-    console.log(data.cells.all())
-    res.send(data.cells)
-
-app.get '/sheet/:id', (req, res) ->
-  console.log(req)
-  console.log('--------------------')
-  console.log(res)
-  # do even more stuff
 
 app.put '/sheet/:id', (req, res) ->
   # oh so many things to do

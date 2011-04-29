@@ -88,6 +88,7 @@ $(document).ready ->
     collection:sheet
 
   sheet.fetch()
+  sheet.refresh()
 #  sheet.refresh(sheet.create([
   #sheet.refresh [
     #{ value: 'foo'}
