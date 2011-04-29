@@ -93,7 +93,7 @@ $(document).ready ->
 #  sheet.refresh(sheet.create([
   #sheet.refresh [
     #{ value: 'foo'}
-    #{ value: 'bar'}
+    #{ value: 'bar'}}
     #{ value: 'baz'}
     #{ value: 'bla'}
     #{ value: 'foo'}
