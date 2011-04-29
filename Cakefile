@@ -11,7 +11,7 @@ task 'docs', ->
   exec 'docco public/*.coffee'
   exec 'docco server.coffee'
   exec 'cp -f docs/server.html docs/index.html'
-
+ 
 # see https://github.com/rtomayko/rocco/blob/master/Rakefile
 task 'docs:gh', 'generate docs and push it to gh-pages', ->
   # Shamelessly stolen this trick from https://github.com/jashkenas/coffee-script/blob/master/Cakefile
