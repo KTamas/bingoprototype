@@ -17,4 +17,4 @@ task 'docs:osx', ->
 
 task 'docs:gnome', ->
   cp.exec 'cake docs'
-  cp.exec 'gnome-open docs/server.html'
+  cp.exec 'xdg-open docs/server.html'
