@@ -10,7 +10,7 @@ $(document).ready ->
       @__defineGetter__ 'size', -> Math.sqrt @length
 
     model: Cell
-    url: '/sheet'
+    url: '/wordlist'
 
 
     every_nth: (n, offset=0, smallest=0, largest=@length) ->
