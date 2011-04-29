@@ -36,7 +36,7 @@ task 'docs:gh', 'generate docs and push it to gh-pages', ->
     "git commit -a -m 'rebuild pages from `git rev-parse --short HEAD`'"
     "git push -q o HEAD:gh-pages"
     "cd .."
-    "git push -q o HEAD:gh-pages"
+    "git push origin HEAD:gh-pages"
   ].join(' && ')
   path.exists './docs/.git/refs/heads/master', (exists) ->
     if !exists
