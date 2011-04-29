@@ -1,6 +1,6 @@
 # Hello, world! 
 #
-# Yo. Ha ezt latod gazs, akkor megy a cakefile. Try 1.
+# Yo. Ha ezt latod gazs, akkor megy a cakefile. Try 2.
 
 #### Initialization
 http = require 'http' 
