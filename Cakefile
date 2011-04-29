@@ -14,8 +14,7 @@ task 'docs', ->
 
 # see https://github.com/rtomayko/rocco/blob/master/Rakefile
 task 'docs:gh', 'generate docs and push it to gh-pages', ->
-  invoke 'docs'
-
+  exec 'cake docs'
 
   # Yes I'm not proud of this line either, but I'm not gonna wrap all my shell commands into one callback of getting the freaking commit hash (`git rev-parse --short HEAD`). No way.
   rev = require('gitteh').openRepository('.git').getReference("HEAD").resolve().target.slice(0, 7)
