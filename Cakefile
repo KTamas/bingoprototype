@@ -14,23 +14,35 @@ task 'docs', ->
 
 # see https://github.com/rtomayko/rocco/blob/master/Rakefile
 task 'docs:gh', 'generate docs and push it to gh-pages', ->
-  exec 'cake docs'
+  # Shamelessly stolen this trick from https://github.com/jashkenas/coffee-script/blob/master/Cakefile
+  nope = [
+    "cd docs"
+    "git init -q"
+    "git remote add o ../.git"
+    "cd .."
+  ].join(' && ')
+  
+  yep = [
+    "cd docs"
+    "git fetch -q o"
+    "git reset -q --hard o/gh-pages"
+    "touch ."
+    "cd .."
+  ].join(' && ')
 
-  # Yes I'm not proud of this line either, but I'm not gonna wrap all my shell commands into one callback of getting the freaking commit hash (`git rev-parse --short HEAD`). No way.
-  rev = require('gitteh').openRepository('.git').getReference("HEAD").resolve().target.slice(0, 7)
+  todo = [
+    "cake docs"
+    "cd docs"
+    "git commit -a -m 'rebuild pages from `git rev-parse --short HEAD`'"
+    "git push -q o HEAD:gh-pages"
+  ].join(' && ')
   path.exists 'docs/.git/refs/heads/gh-pages', (exists) ->
     if !exists
-      exec 'cd docs && git init -q && git remote add o ../.git'
+      exec nope + ' && ' + todo, (err, stdout, stderr) ->
+        if err then console.log stderr.trim() else console.log 'success'
     else
-      exec 'cd docs && git fetch -q o && git reset -q --hard o/gh-pages && touch .'
-  process.chdir 'docs'
-  exec 'git add *.html'
-  exec "git commit -m 'rebuild pages from #{rev}'", (err) ->
-    if err
-      console.log err
-      return
-    console.log 'gh-pages updated'
-    exec 'git push -q o HEAD:gh-pages'
+      exec yep + ' && ' + todo, (err, stdout, stderr) ->
+        if err then console.log stderr.trim() else console.log 'success'
 
 task 'docs:osx', ->
   invoke 'docs'
