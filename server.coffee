@@ -1,31 +1,38 @@
-# require in the usual stuff
+# **This** is gonna be fun!
+#
+# Yes, really.
+
+#### Initialization
 http = require 'http' 
 express = require 'express' 
 app = express.createServer()
 
-# default configuration
+# Express.js default configuration
 app.configure ->
   app.use express.bodyParser() 
   app.use express.static "#{__dirname}/public"  
   app.use app.router 
 
-# database
-# see https://github.com/zefhemel/persistencejs/pull/42
+# Database configuration. 
+# See [this](https://github.com/zefhemel/persistencejs/pull/42) why we're using a fork of the original persistence.js library, also why the messy initialization process.
+# This was the best ORM I could find for MySql and it's still kinda immature, but it'll work for now.
 persistence = require './persistence' 
 PersistenceConfig = require('./persistence').StoreConfig
 persistenceStore = PersistenceConfig.init persistence, adaptor: 'mysql'
-
 persistenceStore.config persistence, 'localhost', 3306, 'bingo', 'root', '' 
 
+# Immature, yes, I have to pass around a session object.
 session = persistenceStore.getSession()
 
-Cell = persistence.define 'Cell', 
-  selected: "BOOL" 
-  value: "TEXT"
-
+# We have many sheets.
 Sheet = persistence.define 'Sheet',
   name: "TEXT" 
   size: "INT"
+
+# Sheets have `Sheet.size` cells.
+Cell = persistence.define 'Cell', 
+  value: "TEXT"
+
 
 Sheet.hasMany 'cells', Cell, 'sheets' 
 
