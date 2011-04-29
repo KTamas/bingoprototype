@@ -67,11 +67,4 @@ app.post '/wordlist', (req, res) ->
   session.flush()
   res.send(req.body)
 
-
-app.put '/wordlist/:id', (req, res) ->
-  # oh so many things to do
-
-app.delete '/wordlist/:id', (req, res) ->
-  # I don't even know where to begin
-
 app.listen(8080)
