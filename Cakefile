@@ -35,8 +35,10 @@ task 'docs:gh', 'generate docs and push it to gh-pages', ->
     "cd docs"
     "git commit -a -m 'rebuild pages from `git rev-parse --short HEAD`'"
     "git push -q o HEAD:gh-pages"
+    "cd .."
+    "git push -q o HEAD:gh-pages"
   ].join(' && ')
-  path.exists 'docs/.git/refs/heads/gh-pages', (exists) ->
+  path.exists './docs/.git/refs/heads/master', (exists) ->
     if !exists
       exec nope + ' && ' + todo, (err, stdout, stderr) ->
         if err then console.log stderr.trim() else console.log 'success'
