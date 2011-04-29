@@ -87,6 +87,7 @@ $(document).ready ->
   window.sheetview = new SheetView
     collection:sheet
 
+# pamparam
   sheet.fetch()
   sheet.refresh()
 #  sheet.refresh(sheet.create([

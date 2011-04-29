@@ -2,6 +2,8 @@
 http = require 'http' 
 express = require 'express' 
 app = express.createServer()
+
+# default configuration
 app.configure ->
   app.use express.bodyParser() 
   app.use express.static "#{__dirname}/public"  
@@ -31,19 +33,14 @@ app.get '/sync', (req, res) ->
   session.schemaSync (tx) ->
     res.write('Done')
 
+# just the first sheet for now
 app.get '/sheet', (req, res) ->
   Sheet.all(session).one (data) ->
     data.cells.list null, (results) ->
       res.send(results)
-      #results.forEach (r) ->
-        #console.log(r.value)
-      #res.send('foo')
 
 app.get '/sheet/:id', (req, res) ->
-  console.log req 
-  console.log '--------------------' 
-  console.log res 
-  # do even more stuff
+
 
 app.post '/sheet', (req, res) ->
   sheet = new Sheet(session)

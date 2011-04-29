@@ -179,6 +179,7 @@
     window.sheetview = new SheetView({
       collection: sheet
     });
-    return sheet.fetch();
+    sheet.fetch();
+    return sheet.refresh();
   });
 }).call(this);
