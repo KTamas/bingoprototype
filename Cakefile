@@ -16,7 +16,7 @@ task 'docs', ->
  
 # see https://github.com/rtomayko/rocco/blob/master/Rakefile
 task 'docs:gh', 'generate docs and push it to gh-pages', ->
-  # Shamelessly stolen this trick from https://github.com/jashkenas/coffee-script/blob/master/Cakefile
+  # Shamelessly stole this trick from https://github.com/jashkenas/coffee-script/blob/master/Cakefile
   nope = [
     "cd docs"
     "git init -q"
