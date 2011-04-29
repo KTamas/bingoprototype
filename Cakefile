@@ -33,10 +33,12 @@ task 'docs:gh', 'generate docs and push it to gh-pages', ->
   todo = [
     "cake docs"
     "cd docs"
-    "git commit -a -m 'rebuild pages from `git rev-parse --short HEAD`'"
+    "git add *.css"
+    "git add *.html"
+    "git commit -a -m 'fancy commit message goes here'"
     "git push -q o HEAD:gh-pages"
     "cd .."
-    "git push origin HEAD:gh-pages"
+    "git push -q origin gh-pages"
   ].join(' && ')
   path.exists './docs/.git/refs/heads/master', (exists) ->
     if !exists
