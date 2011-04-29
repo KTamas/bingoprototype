@@ -1,0 +1,108 @@
+<!DOCTYPE html>  <html> <head>   <title>bingo.coffee</title>   <meta http-equiv="content-type" content="text/html; charset=UTF-8">   <link rel="stylesheet" media="all" href="docco.css" /> </head> <body>   <div id="container">     <div id="background"></div>          <table cellpadding="0" cellspacing="0">       <thead>         <tr>           <th class="docs">             <h1>               bingo.coffee             </h1>           </th>           <th class="code">           </th>         </tr>       </thead>       <tbody>                               <tr id="section-1">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-1">&#182;</a>               </div>                            </td>             <td class="code">               <div class="highlight"><pre><span class="nx">$</span><span class="p">(</span><span class="nb">document</span><span class="p">).</span><span class="nx">ready</span> <span class="o">-&gt;</span>
+  <span class="k">class</span> <span class="nx">Cell</span> <span class="k">extends</span> <span class="nx">Backbone</span><span class="p">.</span><span class="nx">Model</span>
+    <span class="nv">initialize: </span><span class="o">-&gt;</span>
+      <span class="nx">@__defineGetter__</span> <span class="s1">&#39;selected&#39;</span><span class="p">,</span> <span class="o">-&gt;</span> <span class="nx">@get</span> <span class="s1">&#39;selected&#39;</span>
+      <span class="nx">@__defineSetter__</span> <span class="s1">&#39;selected&#39;</span><span class="p">,</span> <span class="nf">(value)-&gt;</span> <span class="nx">@set</span> <span class="nx">selected</span><span class="o">:</span><span class="nx">value</span>
+
+
+  <span class="k">class</span> <span class="nx">Sheet</span> <span class="k">extends</span> <span class="nx">Backbone</span><span class="p">.</span><span class="nx">Collection</span>
+    <span class="nv">initialize: </span><span class="o">-&gt;</span>
+      <span class="nx">@__defineGetter__</span> <span class="s1">&#39;size&#39;</span><span class="p">,</span> <span class="o">-&gt;</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">sqrt</span> <span class="nx">@length</span>
+
+    <span class="nv">model: </span><span class="nx">Cell</span>
+    <span class="nv">url: </span><span class="s1">&#39;/sheet&#39;</span>
+
+
+    <span class="nv">every_nth: </span><span class="nf">(n, offset=0, smallest=0, largest=@length) -&gt;</span>
+      <span class="nx">@select</span> <span class="p">(</span><span class="nx">cell</span><span class="p">)</span> <span class="o">=&gt;</span>
+        <span class="p">(</span><span class="nx">@indexOf</span> <span class="nx">cell</span><span class="p">)</span> <span class="o">%</span> <span class="nx">n</span> <span class="o">==</span> <span class="nx">offset</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="nx">@indexOf</span> <span class="nx">cell</span><span class="p">)</span> <span class="o">&gt;=</span><span class="nx">smallest</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="nx">@indexOf</span> <span class="nx">cell</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="nx">largest</span>
+
+    <span class="nv">check_match: </span><span class="nf">(cells) -&gt;</span>
+      <span class="k">if</span> <span class="p">(</span><span class="nx">_</span><span class="p">.</span><span class="nx">pluck</span><span class="p">(</span><span class="nx">cells</span><span class="p">,</span> <span class="s1">&#39;selected&#39;</span><span class="p">).</span><span class="nx">reduce</span> <span class="nf">(p,c) -&gt;</span> <span class="nx">p</span> <span class="o">&amp;&amp;</span> <span class="nx">c</span><span class="p">)</span>
+        <span class="nx">_</span><span class="p">.</span><span class="nx">each</span> <span class="nx">cells</span><span class="p">,</span> <span class="nf">(cell) -&gt;</span> <span class="nx">cell</span><span class="p">.</span><span class="nx">set</span> <span class="nx">winning</span><span class="o">:</span><span class="kc">true</span>
+        <span class="k">return</span> <span class="nx">cells</span>
+
+    <span class="nv">row_matches: </span><span class="o">-&gt;</span>
+      <span class="nv">results = </span><span class="k">for</span> <span class="nx">row</span> <span class="k">in</span> <span class="p">[</span><span class="mi">0</span><span class="p">...</span><span class="nx">@size</span><span class="p">]</span>
+        <span class="nv">start = </span><span class="nx">row</span><span class="o">*</span><span class="nx">@size</span>
+        <span class="nx">@check_match</span> <span class="nx">@models</span><span class="p">.</span><span class="nx">slice</span><span class="p">(</span><span class="nx">start</span><span class="p">,</span> <span class="nx">start</span> <span class="o">+</span> <span class="nx">@size</span><span class="p">)</span></pre></div>             </td>           </tr>                               <tr id="section-2">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-2">&#182;</a>               </div>               <p>_.reduce results, (p,c) -> p || c</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="nv">column_matches: </span><span class="o">-&gt;</span>
+      <span class="nv">results = </span><span class="k">for</span> <span class="nx">row</span> <span class="k">in</span> <span class="p">[</span><span class="mi">0</span><span class="p">...</span><span class="nx">@size</span><span class="p">]</span>
+        <span class="nx">@check_match</span> <span class="nx">@every_nth</span> <span class="nx">@size</span><span class="p">,</span> <span class="nx">row</span>
+      <span class="nx">_</span><span class="p">.</span><span class="nx">reduce</span> <span class="nx">results</span><span class="p">,</span> <span class="nf">(p,c) -&gt;</span> <span class="nx">p</span> <span class="o">||</span> <span class="nx">c</span>
+
+    <span class="nv">diagonal_matches: </span><span class="o">-&gt;</span>
+      <span class="nv">results = </span><span class="p">[</span>
+        <span class="nx">@check_match</span> <span class="nx">@every_nth</span> <span class="nx">@size</span><span class="o">+</span><span class="mi">1</span>
+        <span class="nx">@check_match</span> <span class="nx">@every_nth</span> <span class="nx">@size</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="nx">@size</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="nx">@length</span><span class="o">-</span><span class="nx">@size</span>
+      <span class="p">]</span>
+      <span class="nx">_</span><span class="p">.</span><span class="nx">reduce</span> <span class="nx">results</span><span class="p">,</span> <span class="nf">(p,c) -&gt;</span> <span class="nx">p</span> <span class="o">||</span> <span class="nx">c</span>
+
+    <span class="nv">look_for_matches: </span><span class="o">-&gt;</span>
+      <span class="nx">@each</span> <span class="nf">(cell) -&gt;</span> <span class="nx">cell</span><span class="p">.</span><span class="nx">set</span> <span class="nx">winning</span><span class="o">:</span><span class="kc">false</span> <span class="c1"># csúnya hack</span>
+      <span class="nx">@row_matches</span><span class="p">()</span>
+      <span class="nx">@column_matches</span><span class="p">()</span>
+      <span class="nx">@diagonal_matches</span><span class="p">()</span></pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <p>@locked = true</p>             </td>             <td class="code">               <div class="highlight"><pre>  <span class="k">class</span> <span class="nx">CellView</span> <span class="k">extends</span> <span class="nx">Backbone</span><span class="p">.</span><span class="nx">View</span>
+    <span class="nv">className: </span><span class="s1">&#39;cell&#39;</span>
+    <span class="nv">events:</span>
+      <span class="s1">&#39;click&#39;</span><span class="o">:</span> <span class="s1">&#39;click&#39;</span>
+    <span class="nv">initialize: </span><span class="o">-&gt;</span>
+      <span class="nx">@model</span><span class="p">.</span><span class="nx">bind</span> <span class="s1">&#39;change:selected&#39;</span><span class="p">,</span> <span class="nx">@toggle_selected</span>
+      <span class="nx">@model</span><span class="p">.</span><span class="nx">bind</span> <span class="s1">&#39;change:winning&#39;</span><span class="p">,</span> <span class="nx">@toggle_winning</span>
+    <span class="nv">render: </span><span class="o">-&gt;</span>
+      <span class="nx">$</span><span class="p">(</span><span class="nx">@el</span><span class="p">).</span><span class="nx">html</span> <span class="nx">@model</span><span class="p">.</span><span class="nx">get</span> <span class="s1">&#39;value&#39;</span>
+      <span class="nx">$</span><span class="p">(</span><span class="nx">@el</span><span class="p">).</span><span class="nx">addClass</span> <span class="s1">&#39;selected&#39;</span> <span class="k">if</span> <span class="nx">@model</span><span class="p">.</span><span class="nx">selected</span>
+      <span class="k">return</span> <span class="k">this</span>
+    <span class="nv">click: </span><span class="o">-&gt;</span>
+      <span class="nx">@model</span><span class="p">.</span><span class="nx">set</span> <span class="nv">selected: </span><span class="o">!</span><span class="nx">@model</span><span class="p">.</span><span class="nx">selected</span>
+    <span class="nv">toggle_selected: </span><span class="o">=&gt;</span>
+      <span class="nx">@collection</span><span class="p">.</span><span class="nx">look_for_matches</span><span class="p">()</span>
+      <span class="k">if</span> <span class="nx">@model</span><span class="p">.</span><span class="nx">selected</span>
+        <span class="nx">$</span><span class="p">(</span><span class="nx">@el</span><span class="p">).</span><span class="nx">addClass</span> <span class="s1">&#39;selected&#39;</span>
+      <span class="k">else</span>
+        <span class="nx">$</span><span class="p">(</span><span class="nx">@el</span><span class="p">).</span><span class="nx">removeClass</span> <span class="s1">&#39;selected&#39;</span>
+    <span class="nv">toggle_winning: </span><span class="o">=&gt;</span>
+      <span class="k">if</span> <span class="nx">@model</span><span class="p">.</span><span class="nx">get</span> <span class="s1">&#39;winning&#39;</span>
+        <span class="nx">$</span><span class="p">(</span><span class="nx">@el</span><span class="p">).</span><span class="nx">addClass</span> <span class="s1">&#39;winning&#39;</span>
+      <span class="k">else</span>
+        <span class="nx">$</span><span class="p">(</span><span class="nx">@el</span><span class="p">).</span><span class="nx">removeClass</span> <span class="s1">&#39;winning&#39;</span>
+
+
+  <span class="k">class</span> <span class="nx">SheetView</span> <span class="k">extends</span> <span class="nx">Backbone</span><span class="p">.</span><span class="nx">View</span>
+    <span class="nv">el: </span><span class="nx">$</span><span class="p">(</span><span class="s2">&quot;#sheet&quot;</span><span class="p">)</span>
+    <span class="nv">initialize: </span><span class="o">-&gt;</span>
+      <span class="nx">@collection</span><span class="p">.</span><span class="nx">bind</span> <span class="s1">&#39;refresh&#39;</span><span class="p">,</span> <span class="nx">@render</span>
+    <span class="nv">render: </span><span class="o">=&gt;</span>
+      <span class="nx">@collection</span><span class="p">.</span><span class="nx">each</span><span class="p">(</span><span class="nx">@add_one</span><span class="p">)</span>
+    <span class="nv">add_one: </span><span class="p">(</span><span class="nx">cell</span><span class="p">)</span> <span class="o">=&gt;</span>
+      <span class="nv">one = </span><span class="k">new</span> <span class="nx">CellView</span> <span class="nx">model</span><span class="o">:</span><span class="nx">cell</span><span class="p">,</span> <span class="nv">collection: </span><span class="nx">@collection</span>
+      <span class="nx">@el</span><span class="p">.</span><span class="nx">append</span> <span class="nx">one</span><span class="p">.</span><span class="nx">render</span><span class="p">().</span><span class="nx">el</span>
+
+  <span class="nb">window</span><span class="p">.</span><span class="nv">sheet = </span><span class="k">new</span> <span class="nx">Sheet</span>
+  <span class="nb">window</span><span class="p">.</span><span class="nv">sheetview = </span><span class="k">new</span> <span class="nx">SheetView</span>
+    <span class="nx">collection</span><span class="o">:</span><span class="nx">sheet</span></pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <p>pamparam</p>             </td>             <td class="code">               <div class="highlight"><pre>  <span class="nx">sheet</span><span class="p">.</span><span class="nx">fetch</span><span class="p">()</span>
+  <span class="nx">sheet</span><span class="p">.</span><span class="nx">refresh</span><span class="p">()</span></pre></div>             </td>           </tr>                               <tr id="section-5">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-5">&#182;</a>               </div>               <p>sheet.refresh(sheet.create([
+sheet.refresh [</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="c1">#{ value: &#39;foo&#39;}</span>
+    <span class="c1">#{ value: &#39;bar&#39;}}</span>
+    <span class="c1">#{ value: &#39;baz&#39;}</span>
+    <span class="c1">#{ value: &#39;bla&#39;}</span>
+    <span class="c1">#{ value: &#39;foo&#39;}</span>
+    <span class="c1">#{ value: &#39;foo&#39;}</span>
+    <span class="c1">#{ value: &#39;foo&#39;}</span>
+    <span class="c1">#{ value: &#39;bar&#39;}</span>
+    <span class="c1">#{ value: &#39;baz&#39;}</span>
+    <span class="c1">#{ value: &#39;bla&#39;}</span>
+    <span class="c1">#{ value: &#39;bar&#39;}</span>
+    <span class="c1">#{ value: &#39;baz&#39; }</span>
+    <span class="c1">#{ value: &#39;bla&#39; }</span>
+    <span class="c1">#{ value: &#39;bar&#39;}</span>
+    <span class="c1">#{ value: &#39;baz&#39; }</span>
+    <span class="c1">#{ value: &#39;bla&#39; }</span>
+    <span class="c1">#{ value: &#39;bar&#39;}</span>
+    <span class="c1">#{ value: &#39;baz&#39;}</span>
+    <span class="c1">#{ value: &#39;bla&#39;}</span>
+    <span class="c1">#{ value: &#39;bar&#39;}</span>
+    <span class="c1">#{ value: &#39;baz&#39; }</span>
+    <span class="c1">#{ value: &#39;bla&#39; }</span>
+    <span class="c1">#{ value: &#39;bar&#39;}</span>
+    <span class="c1">#{ value: &#39;baz&#39; }</span>
+    <span class="c1">#{ value: &#39;bla&#39; }</span></pre></div>             </td>           </tr>                               <tr id="section-6">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-6">&#182;</a>               </div>               <p>]))</p>             </td>             <td class="code">               <div class="highlight"><pre></pre></div>             </td>           </tr>                </tbody>     </table>   </div> </body> </html> 
