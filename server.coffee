@@ -5,12 +5,18 @@
 #### Initialization
 http = require 'http' 
 express = require 'express' 
+public = "#{__dirname}/public"
+
+# Express.js
 app = express.createServer()
 
 # Express.js default configuration
 app.configure ->
+  app.use express.compiler
+    src: public
+    enable: ['coffeescript']
   app.use express.bodyParser() 
-  app.use express.static "#{__dirname}/public"  
+  app.use express.static public  
   app.use app.router 
 
 # Database configuration. 
