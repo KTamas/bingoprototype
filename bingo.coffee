@@ -24,19 +24,16 @@ $(document).ready ->
       results = for row in [0...@size]
         start = row*@size
         @check_match @models.slice(start, start + @size)
-      #_.reduce results, (p,c) -> p || c
 
     column_matches: ->
       results = for row in [0...@size]
         @check_match @every_nth @size, row
-      _.reduce results, (p,c) -> p || c
 
     diagonal_matches: ->
       results = [
         @check_match @every_nth @size+1
         @check_match @every_nth @size-1, 0, @size-1, @length-@size
       ]
-      _.reduce results, (p,c) -> p || c
 
     look_for_matches: ->
       @each (cell) -> cell.set winning:false # csúnya hack

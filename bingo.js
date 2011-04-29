@@ -77,7 +77,7 @@
       };
       Sheet.prototype.column_matches = function() {
         var results, row;
-        results = (function() {
+        return results = (function() {
           var _ref, _results;
           _results = [];
           for (row = 0, _ref = this.size; (0 <= _ref ? row < _ref : row > _ref); (0 <= _ref ? row += 1 : row -= 1)) {
@@ -85,16 +85,10 @@
           }
           return _results;
         }).call(this);
-        return _.reduce(results, function(p, c) {
-          return p || c;
-        });
       };
       Sheet.prototype.diagonal_matches = function() {
         var results;
-        results = [this.check_match(this.every_nth(this.size + 1)), this.check_match(this.every_nth(this.size - 1, 0, this.size - 1, this.length - this.size))];
-        return _.reduce(results, function(p, c) {
-          return p || c;
-        });
+        return results = [this.check_match(this.every_nth(this.size + 1)), this.check_match(this.every_nth(this.size - 1, 0, this.size - 1, this.length - this.size))];
       };
       Sheet.prototype.look_for_matches = function() {
         this.each(function(cell) {
