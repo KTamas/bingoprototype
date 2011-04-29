@@ -7,8 +7,12 @@ task 'start', ->
   sv.run "-e coffee -x coffee server.coffee".split(" ")
 
 task 'docs', ->
+  cp.exec 'git checkout gh-pages'
   cp.exec 'docco public/*.coffee'
   cp.exec 'docco server.coffee'
+  cp.exec 'git commit -a -m "docco generated"'
+  cp.exec 'git push origin gh-pages'
+  cp.exec 'git checkout master'
 
 task 'docs:osx', ->
   cp.exec 'cake docs'
