@@ -1,6 +1,6 @@
-# This is gonna be fun!
+# Hello, world! 
 #
-# Yes, really.
+# Yo.
 
 #### Initialization
 http = require 'http' 
