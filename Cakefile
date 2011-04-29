@@ -10,8 +10,11 @@ task 'docs', ->
   cp.exec 'docco public/*.coffee'
   cp.exec 'docco server.coffee'
 
-task 'docs:show', ->
-  # Come on I seriously can't call another task?
+task 'docs:osx', ->
   cp.exec 'cake docs'
-  # TODO: linux version...
   cp.exec 'open docs/server.html'
+
+
+task 'docs:gnome', ->
+  cp.exec 'cake docs'
+  cp.exec 'gnome-open docs/server.html'
