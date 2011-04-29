@@ -11,3 +11,9 @@ task 'build', ->
 task 'docs', ->
   cp.exec 'docco public/*.coffee'
   cp.exec 'docco server.coffee'
+
+task 'docs:show', ->
+  # Come on I seriously can't call another task?
+  cp.exec 'cake docs'
+  # TODO: linux version...
+  cp.exec 'open docs/server.html'

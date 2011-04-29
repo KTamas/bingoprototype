@@ -1,4 +1,4 @@
-# **This** is gonna be fun!
+# This is gonna be fun!
 #
 # Yes, really.
 
