@@ -9,7 +9,8 @@ app = express.createServer()
 # Express.js default configuration
 app.configure ->
   app.use express.compiler
-    src: public
+    src: "#{public}/coffee"
+    src: "#{public}/js"
     enable: ['coffeescript']
   app.use express.bodyParser() 
   app.use express.static public  
