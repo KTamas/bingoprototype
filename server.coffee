@@ -23,7 +23,7 @@ ObjectId = Schema.ObjectId
 mongoose.connect 'mongodb://bingo:B1ng0@flame.mongohq.com:27032/bingo'
 
 Words = new Schema
-  body: String
+  value: String
 
 Wordlist = new Schema
   name: String
@@ -43,7 +43,8 @@ mongoose.model 'Games', Games
 
 app.get '/wordlist', (req, res) ->
   wordlist = mongoose.model 'Wordlist'
-  wordlist.findOne()
+  wordlist.findOne name: "bla", (err, data) ->
+    res.send(data.words)
 
 app.get '/wordlist/:id', (req, res) ->
   wordlist = mongoose.model 'Wordlist'
@@ -53,8 +54,9 @@ app.post '/wordlist', (req, res) ->
   console.log 'starting'
   wordlist = mongoose.model 'Wordlist'
   mylist = new wordlist
+  mylist.name = "bla"
   for c in [0..24]
-    mylist.words.push body: "foo"
+    mylist.words.push value: "foo"
   mylist.save (err) ->
     if !err
       console.log('success')
