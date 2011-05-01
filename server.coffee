@@ -9,8 +9,7 @@ app = express.createServer()
 # Express.js default configuration
 app.configure ->
   app.use express.compiler
-    src: "#{public}/coffee"
-    src: "#{public}/js"
+    src: public
     enable: ['coffeescript']
   app.use express.bodyParser() 
   app.use express.static public  
@@ -56,7 +55,8 @@ crud_generator = (model, name) ->
     mymodel = new mongoose.model model
     console.log(req.body.params)
 
-  app.delete "#{name}", (req, res) ->
+  app.delete "/#{name}", (req, res) ->
+    mongoose.model(model).findOne 
     # have to write this
     
 app.get '/wordlist', (req, res) ->
