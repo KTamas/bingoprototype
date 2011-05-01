@@ -7,6 +7,9 @@ path = require 'path'
 task 'start', ->
   sv.run "-e coffee -x coffee server.coffee".split(" ")
 
+task 'build', 'gazsnak nem volt eleg egy coffee file', ->
+  # majd megirom
+
 task 'docs', ->
   exec [
     'docco public/*.coffee'
