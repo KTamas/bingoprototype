@@ -1,15 +1,49 @@
+@media all and (orientation:portrait) { body {-webkit-transform:rotate(90deg)}; }
+@media all and (min-resolution: 132 dpi) { body { font-size:100%} }
+@media all and (min-resolution: 160 dpi) { body { font-size:114%} }
+@media all and (min-resolution: 180 dpi) { body { font-size:120%} }
+html {
+  height: 100%;
+  -webkit-tap-highlight-color:rgba(0,0,0,0);
+  -webkit-user-select:none;
+}
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  font-family:sans-serif;
+  font-size:100%;
+}
+div {
+}
+#bar {
+  width: 12.5%;
+  background-color: #111111;
+  height: 100%;
+  float: left;
+  color:white;
+}
 #sheet {
-  width: 400px
+  width: 87.5%;
+  height: 100%;
+  background-color: #111111;
+  float: right;
 }
 .cell {
   background: #eee;
-  margin:5px; padding:10px;
-  width: 50px; height:50px; overflow:hidden;
-  float:left;
+  margin:0.5% 0.5% 0 0;
+  padding: 0px;
+  width: 19.5%;
+  height: 19.25%;
+  overflow: hidden;
+  float: left;
+  text-align:center;
+  font-size:2em;
 }
 .selected {
-  background:green;
+  background: green;
 }
 .winning {
-  background:red;
+  background: red;
 }
