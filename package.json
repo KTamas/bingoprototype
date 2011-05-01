@@ -1,0 +1,31 @@
+{
+  "name": "bullshitbingo",
+  "contributors": [
+    {
+      "name": "Tamás Kádár",
+      "email": "ktamas@ktamas.com",
+      "url": "http://blog.ktamas.com"
+    },
+    {
+      "name": "Gáspár Körtesi",
+      "email": "gazs@bergengocia.net",
+      "url": "http://bergengocia.net"
+    }
+  ],
+  "version": "0.0.1",
+  "description": "",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/KTamas/bingoprototype"
+  },
+  "dependencies": {
+    "coffee-script": "1.x",
+    "express": "2.2.x",
+    "googlesets": "0.0.2",
+    "mongoose": "1.x",
+    "supervisor": "*" 
+  },
+  "scripts": {
+    "start": "cake start"
+  }
+}
