@@ -10,7 +10,7 @@ $(document).ready ->
       @__defineGetter__ 'size', -> Math.sqrt @length
 
     model: Cell
-    url: '/wordlist'
+   # url: '/wordlist'
 
 
     every_nth: (n, offset=0, smallest=0, largest=@length) ->
@@ -87,10 +87,6 @@ $(document).ready ->
   window.sheetview = new SheetView
     collection:sheet
 
-# pamparam
-  sheet.fetch()
-  sheet.refresh()
-#  sheet.refresh(sheet.create([
   #sheet.refresh [
     #{ value: 'foo'}
     #{ value: 'bar'}}
