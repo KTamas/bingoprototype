@@ -4,8 +4,12 @@
     font-size: 9pt;
   }
 }
+
 @media screen and (-webkit-device-pixel-ratio: 1.0) {
   /* mdpi android and iphone */
+  body {
+    font-size: 11pt;
+  }
 }
 
 @media screen and (-webkit-device-pixel-ratio: 1.5) {
@@ -14,9 +18,11 @@
     font-size: 16pt;
   }
 }
+
 @media screen and (-webkit-device-pixel-ratio: 2.0) {
   /* iphone hdpi */
 }
+
 html {
   height: 100%;
   -webkit-tap-highlight-color:rgba(0,0,0,0);
@@ -47,8 +53,8 @@ div {
 .cell {
   background: #eee;
   margin:0.5% 0.5% 0 0;
-  width: 19.625%;
-  height: 19.625%;
+  width: 19.5%;
+  height: 19.5%;
   overflow: hidden;
   float: left;
 }
