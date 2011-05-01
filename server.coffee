@@ -16,55 +16,50 @@ app.configure ->
   app.use app.router 
 
 #### Database configuration. 
-# See [this](https://github.com/zefhemel/persistencejs/pull/42) why we're using a fork of the original persistence.js library, also why the messy initialization process.
-# This was the best ORM I could find for MySql and it's still kinda immature, but it'll work for now.
-persistence = require './persistence' 
-PersistenceConfig = require('./persistence').StoreConfig
-persistenceStore = PersistenceConfig.init persistence, adaptor: 'mysql'
-persistenceStore.config persistence, 'localhost', 3306, 'bingo', 'root', '' 
+mongoose = require 'mongoose'
+Schema = mongoose.Schema
+ObjectId = Schema.ObjectId
 
-# Immature, yes, I have to pass around a session object.
-session = persistenceStore.getSession()
+mongoose.connect 'mongodb://bingo:B1ng0@flame.mongohq.com:27032/bingo'
 
-# We have many wordlists.
-Wordlist = persistence.define 'Wordlist',
-  name: "TEXT" 
-  size: "INT"
+Words = new Schema
+  value: String
 
-# Wordlists have `Wordlist.size` words.
-Word = persistence.define 'Word', 
-  value: "TEXT"
+Wordlist = new Schema
+  name: String
+  words: [Words]
 
-Wordlist.hasMany 'words', Word, 'wordlists' 
+Users = new Schema
+  name: String
+  email: String
 
-User = persistence.define 'User',
-  nick: "TEXT"
-  email: "TEXT"
+Games = new Schema
+  users: [Users]
+  wordlist: [Wordlist]
 
-app.get '/sync', (req, res) ->
-  session.schemaSync (tx) ->
-    res.write('Done')
+mongoose.model 'Wordlist', Wordlist
+mongoose.model 'Users', Users
+mongoose.model 'Games', Games
 
-# First time? Just the first wordlist for now.
 app.get '/wordlist', (req, res) ->
-  Wordlist.all(session).one (data) ->
-    data.words.list null, (results) ->
-      res.send(results)
+  wordlist = mongoose.model 'Wordlist'
+  wordlist.findOne name: "bla", (err, data) ->
+    res.send(data.words)
 
 app.get '/wordlist/:id', (req, res) ->
-  Wordlist.all(session).filter('id', '=', req.params.id).one (data) ->
-    data.words.list null, (results) ->
-      res.send(results)
-
+  wordlist = mongoose.model 'Wordlist'
+  wordlist.findOne({ id: req.params.id })
 
 app.post '/wordlist', (req, res) ->
-  wordlist = new Wordlist(session)
+  console.log 'starting'
+  wordlist = mongoose.model 'Wordlist'
+  mylist = new wordlist
+  mylist.name = "bla"
   for c in [0..24]
-    word = new Word(session)
-    word.value = req.body[c].value
-    word.selected = false
-    wordlist.words.add(word)
-  session.flush()
-  res.send(req.body)
+    mylist.words.push value: "foo"
+  mylist.save (err) ->
+    if !err
+      console.log('success')
+      res.send('foobar')
 
 app.listen(8080)
