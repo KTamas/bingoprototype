@@ -11,7 +11,7 @@ read_files = (folder) ->
     realfile = path.resolve(folder, file)
     data = fs.readFileSync realfile, 'utf8'
     templates[path.basename(file, '.html')] = _.template(data)
-  string = ""
+  string = "templates = {}\n"
   for key, value of templates
     string += "templates['#{key.toString()}'] =  #{value.toString()}\n"
   return string 
