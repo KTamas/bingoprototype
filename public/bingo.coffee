@@ -1,4 +1,5 @@
 $(document).ready ->
+ 
   class Cell extends Backbone.Model
     initialize: ->
       @__defineGetter__ 'selected', -> @get 'selected'
@@ -10,6 +11,7 @@ $(document).ready ->
       @__defineGetter__ 'size', -> Math.sqrt @length
 
     model: Cell
+
     url: '/wordlist'
 
 
@@ -47,7 +49,8 @@ $(document).ready ->
   class CellView extends Backbone.View
     className: 'cell'
     events:
-      'click': 'click'
+      #'click': 'click'
+      'touchstart': 'click'
     initialize: ->
       @model.bind 'change:selected', @toggle_selected
       @model.bind 'change:winning', @toggle_winning
@@ -84,34 +87,32 @@ $(document).ready ->
   window.sheetview = new SheetView
     collection:sheet
 
-# pamparam
-  sheet.fetch()
-  sheet.refresh()
-#  sheet.refresh(sheet.create([
-  #sheet.refresh [
-    #{ value: 'foo'}
-    #{ value: 'bar'}}
-    #{ value: 'baz'}
-    #{ value: 'bla'}
-    #{ value: 'foo'}
-    #{ value: 'foo'}
-    #{ value: 'foo'}
-    #{ value: 'bar'}
-    #{ value: 'baz'}
-    #{ value: 'bla'}
-    #{ value: 'bar'}
-    #{ value: 'baz' }
-    #{ value: 'bla' }
-    #{ value: 'bar'}
-    #{ value: 'baz' }
-    #{ value: 'bla' }
-    #{ value: 'bar'}
-    #{ value: 'baz'}
-    #{ value: 'bla'}
-    #{ value: 'bar'}
-    #{ value: 'baz' }
-    #{ value: 'bla' }
-    #{ value: 'bar'}
-    #{ value: 'baz' }
-    #{ value: 'bla' }
-  #]))
+  sheet.refresh [
+    { value: 'foo'}
+    { value: 'bar'}
+    { value: 'baz'}
+    { value: 'bla'}
+    { value: 'foo'}
+    { value: 'foo'}
+    { value: 'foo'}
+    { value: 'bar'}
+    { value: 'baz'}
+    { value: 'bla'}
+    { value: 'bar'}
+    { value: 'baz' }
+    { value: 'bla' }
+    { value: 'bar'}
+    { value: 'baz' }
+    { value: 'bla' }
+    { value: 'bar'}
+    { value: 'baz'}
+    { value: 'bla'}
+    { value: 'bar'}
+    { value: 'baz' }
+    { value: 'bla' }
+    { value: 'bar'}
+    { value: 'baz' }
+    { value: 'bla' }
+  ]
+
+  # window.scrollTo(0, window.innerHeight) #broágh

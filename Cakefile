@@ -7,6 +7,9 @@ path = require 'path'
 task 'start', ->
   sv.run "-e coffee -x coffee server.coffee".split(" ")
 
+task 'templates', ->
+  sv.run '-e html -x coffee templater.coffee'.split(' ')
+
 task 'docs', ->
   exec [
     'docco public/*.coffee'
