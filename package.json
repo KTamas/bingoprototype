@@ -23,7 +23,9 @@
     "express": "2.2.x",
     "googlesets": "0.0.2",
     "mongoose": "1.x",
-    "supervisor": "*" 
+    "supervisor": "*",
+    "underscore": "*",
+    "futures": "*"
   },
   "scripts": {
     "start": "cake start"
