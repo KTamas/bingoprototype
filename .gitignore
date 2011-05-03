@@ -2,3 +2,4 @@ docs/*.html
 docs/*.css
 public/bingo.js
 public/templates.js
+node_modules/
