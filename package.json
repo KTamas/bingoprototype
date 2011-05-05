@@ -25,7 +25,8 @@
     "mongoose": "1.x",
     "supervisor": "*",
     "underscore": "*",
-    "futures": "*"
+    "connect": "*",
+    "async": "*"
   },
   "scripts": {
     "start": "cake start"
